@@ -1,0 +1,172 @@
+Docker 
+1.What is Docker? 
+Docker is an open source platform that makes it easy to build, package and run applications using containers.
+2.What is hypervisor? 
+A hypervisor is software that allows multiple virtual machines to run on one physical machine.
+Type 1 — Bare-metal-Runs directly on the physical hardware. EX-Microsoft Hyper-V,
+Type 2 — Hosted-Runs on top of an existing operating system. EX- VirtualBox.
+3.What is virtualization? 
+Virtualization means creating a virtual computer inside a physical computer. Every VM includes CPU, RAM , OS, Network interface.
+4.what is containerisation? 
+is an OS level virtualization method used to deploy and run distributed applications without launching an entire VM for each laptop. 
+5.Difference between virtual Machine and containers?
+A Virtual Machine runs a complete operating system using a hypervisor, so it is heavier and uses more resources.
+A Container shares the host OS kernel and runs only the application and its dependencies, making it lightweight and faster
+6.What is Docker container? 
+Lightweight software environment. Running instances of images.
+
+7.What is Docker image? 
+Read only template or blueprint that used to create docker containers.
+8.What is Docker registry?
+A Docker Registry is a service that stores and distributes Docker images.
+
+9.What is Docker repository?
+A Docker repository is a place where Docker images are stored and managed,
+10.What is Docker file? 
+Docker file is a text file in which use the commands and create a customized container according to the requirements.
+11.How will you remove an image from Docker? 
+By using the command -- docker rmi <image-name or id>
+
+12.Explain basic docker usage workflow? 
+Pull/Build an image → docker pull <image> or docker build
+Run a container → docker run <image>
+Check containers → docker ps
+Stop/Remove container → docker stop <container> / docker rm <container>
+Remove image → docker rmi <image>
+
+13.Explain docker architecture?
+User gives a command through the Docker Client (docker run, docker build, etc.).
+The Docker Daemon receives the request and manages Docker objects.
+If the required image is not available locally, Docker pulls it from a Docker Registry like Docker Hub.
+The Daemon uses the Docker Image to create and run a Container.
+Docker Client sends commands to the Docker Daemon, which gets images from a Registry when required and uses those images to create and run containers.
+14.How many containers can be created in one docker server?
+There is no fixed limit on the number of containers in one Docker server. The number depends mainly on the CPU, RAM, storage, and workload of the server.
+15.Can we delete image, if there is a running container for that image?
+First stop and remove the container, then remove the image using docker rmi <image>.
+16.what is dangling image? 
+A dangling image is a Docker image that has no tag and is not associated with any container, usually left behind after rebuilding an image.
+17.How do you copy image from one docker serves to another docker serves without using docker registry? 
+We can transfer a Docker image without a registry by using docker save to export the image as a .tar file, copy it to the other server, and use docker load to import it.
+docker save -o image.tar myimage:latest
+scp image.tar user@server:/tmp/
+docker load -i image.tar
+18.What is the difference between docker create and docker run? 
+docker create → Creates a container but does not start it.
+docker run → Creates and starts the container in a single command.
+19.What is the difference between docker stop and docker kill?
+docker stop → stops the container, giving the application time to shut down properly.
+docker kill → Immediately stops the container without giving it time to shut down or stopping it's execution immediately.
+20.Can we do port binding mapping for an existing container if we have missed while creating a container?
+No, you cannot add or change port mapping for an existing container.
+We need to stop and remove the existing container, then create a new container with the required port mapping using -p.
+21.How can you check the status of a container in Docker? 
+docker ps - shows running containers 
+docker ps -a  - shows both running and stopped containers
+22.What is the difference between docker ps and docker Ps -a? 
+docker ps shows running containers, whereas docker ps -a shows all containers.
+23.What are the various states that a docker container can be? 
+The main container states are Created, Running, Paused, Restarting, Exited.
+Created – Container is created but not started.
+Running – Container is currently running.
+Paused – Container processes are temporarily paused.
+Restarting – Container is being restarted.
+Exited/Stopped – Container has stopped running.
+24.your application is running as a container. And your application is not accessible. How will you troubleshoot?
+First, I will check whether the container is running using docker ps. Then I will check the container logs using docker logs. Next, I will verify the port mapping using docker port or docker ps, check whether the application is listening on the correct port, and finally check network/firewall issues.
+Check container status
+        ↓
+Check container logs
+        ↓
+Check port mapping
+        ↓
+Check application/service inside container
+        ↓
+Check Docker network
+        ↓
+Check firewall / security rules
+25.can we have run more than one process inside a container? 
+Yes, we can run multiple processes inside a Docker container, but it is generally recommended to run one main process per container.
+Multiple processes are possible, but for better scalability and management, Docker follows the best practice of running one main application/process per container.
+26.What is docker cp command? 
+docker cp is used to copy files or directories between a Docker container and the host machine.
+docker cp <container>:/path/file /host/path
+docker cp /host/path/file <container>:/path/
+27.What is the difference between copy and docker cp? 
+COPY → Used in a Dockerfile to copy files from the build context into the Docker image while building it.
+docker cp → Used to copy files between a running/stopped container and the host machine.
+
+28.What is docker commit? 
+docker commit is used to create a new Docker image from the current state of an existing container.
+docker commit <container_name> <new_image_name>
+29.What is the difference between ADD and COPY instructions in a Dockerfile? 
+COPY is preferred for simple file/directory copying, while ADD provides additional features like tar extraction and URL support.
+30.What is the difference between RUN and CMD instruction in Docker file?
+RUN → Executes a command while building the Docker image and creates a new image layer.
+CMD → Specifies the default command to run when the container starts.
+31.can we have more than one CMD instruction in a dockerfile? 
+A Docker file can contain multiple CMD instructions, but Docker executes only the last CMD instruction.
+32.What is the difference between docker run command and RUN?
+RUN is used during image building, while docker run is used to create and start a container
+33.What is Build cache in Docker?
+Docker build cache stores previously built image layers and reuses them during the next build if nothing has changed, making builds faster.
+34.What is ENTRYPOINT in Dockerfile? 
+ENTRYPOINT in a Dockerfile defines the main command or executable that runs when the container starts. It is generally not overridden by command-line arguments, unlike CMD, which provides default arguments or a default command.
+
+35.What is the difference between CMD and ENTRYPOINT instruction in Dockerfile?
+CMD → Provides the default command or arguments and can be easily overridden when running the container.
+ENTRYPOINT → Defines the main executable for the container and is not easily overridden.
+36.Usually Dockefile starts with 'FROM' instruction Can we use any other instruction before 'FROM' instruction?
+We can use ARG before FROM to define build-time variables used in the FROM instruction.
+37.What is the difference between ARG and ENV instructions in dockerfile?
+ARG → Defines variables available only during the Docker image build.
+ENV → Defines environment variables available during build and inside the running container.
+38.What Is WORKDIR instruction in dockerfile? 
+WORKDIR sets the default directory inside the container where commands will be executed.
+39.What is the purpose of Expose command in Dockerfile?
+EXPOSE documents the container port, but it does not actually publish the port to the host. Port publishing is done using -p with docker run.
+
+
+
+40.What is .dockerignore file?
+.dockerignore is a file used to exclude unnecessary files and directories from the Docker build context. 
+41.What is multi stage docker file?
+A multi-stage Dockerfile uses multiple FROM instructions to separate the build stage from the final runtime stage. 
+42.What is working directory of docker?
+The working directory in Docker is the directory inside the container where commands are executed by default. 
+43.What is local registry for docker? 
+A local registry is used to privately store and distribute Docker images without relying on a public registry like Docker Hub.
+44.What are the instructions you used in dockerfile?
+The commonly used Dockerfile instructions are FROM, RUN, COPY, ADD, WORKDIR, ENV, ARG, EXPOSE, CMD, ENTRYPOINT, USER, and LABEL.
+FROM – Defines the base image.
+RUN – Executes commands while building the image.
+COPY – Copies files into the image.
+ADD – Copies files and supports additional features like tar extraction.
+WORKDIR – Sets the working directory.
+ENV – Sets environment variables.
+ARG – Defines build-time variables.
+EXPOSE – Documents the application port.
+CMD – Defines the default command.
+ENTRYPOINT – Defines the main executable.
+USER – Specifies the user to run commands/container.
+LABEL – Adds metadata to the image.
+45.What version of docker you are using?
+Docker version 29.5.2, build 79eb04c
+46.How to get docker container logs?
+docker logs <container_name_or_id> 
+
+
+
+
+47.How do you login into running container?
+docker exec -it <container_name_or_id> /bin/bash
+or 
+docker exec -it <container_name_or_id> /bin/sh
+ 
+48.What happens to our data when a docker container exits? 
+Container data is temporary by default; to persist data even after removing the container, we use Docker volumes or bind mounts.
+49.What are docker objects?
+Docker objects are the resources that Docker manages.
+The main Docker objects are Images, Containers, Networks, and Volumes.
+Docker also manages objects such as Services and Secrets in Docker Swarm.
+
